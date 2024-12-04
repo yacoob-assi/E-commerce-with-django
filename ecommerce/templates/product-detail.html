@@ -1,0 +1,434 @@
+{% load static %}
+
+<style>
+    .zmdi-favorite {
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+    
+    .zmdi-favorite:hover {
+        transform: scale(1.2);
+        color: #ff6f61; /* A lighter red for hover */
+    }
+    
+    .btn-gradient {
+        background: linear-gradient(90deg, #ff7e5f, #feb47b);
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out;
+        border-radius: 0.375rem;
+    }
+    
+    .btn-gradient:hover {
+        background: linear-gradient(90deg, #feb47b, #ff7e5f);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        text-decoration: none;
+    }
+    
+    .btn-gradient:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.5);
+    }
+    
+    .add-to-cart-btn {
+        display: inline-block;
+        background-color: #ff6f61; /* Bright and attractive color */
+        color: #fff; /* White text */
+        font-size: 16px;
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 30px; /* Rounded edges */
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        text-align: center;
+    }
+
+    .add-to-cart-btn:hover {
+        background-color: #e85a4f; /* Slightly darker on hover */
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Increase shadow on hover */
+        transform: scale(1.05); /* Slightly larger */
+    }
+
+    .add-to-cart-btn:active {
+        transform: scale(0.95); /* Smaller on click */
+    }
+
+    .slider-container {
+        
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+        
+    }
+    
+    .slider-column {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 20%;
+        height:100%;
+       
+    }
+    
+    .slider-column img {
+      
+        width: 100%; /* Smaller images */
+        height:90px;
+        opacity: 0.6; /* Slightly faded for inactive images */
+        transition: opacity 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .slider-column .slick-current img {
+        opacity: 1; /* Highlight active smaller image */
+    }
+    
+    .large-slide {
+        width: 70%;
+    }
+    
+    .large-slide img {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+</style>
+<div class=" js-modal1 p-t-60 p-b-20">
+		<div class="overlay-modal1 js-hide-modal1"></div>
+
+		<div class="container">
+			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
+				<button class="how-pos3 hov3 trans-04 js-hide-modal1">
+					<img src="{% static 'images/icons/icon-close.png' %}" alt="CLOSE">
+				</button>
+
+				<div class="row">
+					<div class="col-md-6 col-lg-7 p-b-30">
+						<div class="p-l-25 p-r-30 p-lr-0-lg">
+							<div class="wrap-slick3 flex-sb flex-w">
+								<div class="wrap-slick3-dots"></div>
+								<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+
+								<div class="slick3 gallery-lb">
+									<div class="slider-container">
+                                        <div class="slider-column">
+                                            {% for p in product.images.all %}
+                                                <div><img src="{{p.images.url}}" ></div>
+                                            {% endfor %}
+                                        </div>
+                                        <div class="large-slide">
+                                            <img src="{{product.image.url}}" >
+
+                                        </div>
+                                    </div>
+                                    
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-6 col-lg-5 p-b-30">
+                        <span 
+                        style="
+                            padding: 5px; 
+                            background: linear-gradient(45deg, #ff4d4d, #ff9999); 
+                            color: white; 
+                            border-radius: 8px; 
+                            font-weight: bold; 
+                            text-align: center; 
+                            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);">
+                        -{{ product.get_percentage|floatformat:0 }}%
+                    </span>
+                                            <div class="p-r-50 p-t-5 p-lr-0-lg">
+							<h4 class="mtext-105 cl2 js-name-detail p-b-14">
+								{{product.title}}
+							</h4>
+
+							<span class="mtext-106 cl2">
+								${{product.price}}
+							</span>
+
+                            
+							 <div class="product-rating" style="font-size:18px;position:relative;bottom:5px">
+                                <span class="text-warning">
+                                   &#9733;&#9733;&#9733;&#9733;&#9733;
+                               </span>
+                               
+                               </div>
+							<p class="stext-102 cl3 p-t-23">
+                                {{product.description}}
+  							</p>
+							
+                              <div class="d-flex flex-wrap align-items-center gap-2">
+                                <span class="fw-bold text-primary">Tags:</span>
+                                {% for tag in product.tags.all %}
+                                    <a href="{% url 'tag-list' tag.slug %}" class="badge bg-secondary text-decoration-none">{{ tag }}</a>
+                                {% endfor %}
+                                <div class="flex-m bor9 p-r-10 m-r-11 addToWishButton" data-image="{{product.image.url}}" data-title="{{product.title}}" data-price="{{product.price}}"  data-pid="{{product.id}}" data-quntity="1"  data-url="{% url 'addToWish' %}" id="addToWishlist-{{product.id}}">
+									<a  class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
+										<i class="zmdi zmdi-favorite text-danger fs-4"></i>
+
+									</a>
+								</div>
+                            </div>
+                            
+							<!--  -->
+							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
+								
+
+								
+                                
+							</div>
+                            
+						</div>
+                         
+								
+                        <button class="add-to-cart-btn addToWishilist" data-image="{{product.image.url}}" data-title="{{product.title}}" data-price="{{product.price}}"  data-pid="{{product.id}}" data-quntity="1" data-url="{% url 'addToCart' %}"  id="addToCartButton-{{product.id}}" style="width:70%;margin:30px auto">{% if product.id|stringformat:"s" in cartProductIds %}
+                            Added To Cart
+                        {% else %}
+                            <i class="fas fa-shopping-cart me-2" ></i> Add to Cart
+                        {% endif %}</button>
+                        <a href="{% url 'reviews' product.pk %}" 
+                        class="btn btn-gradient btn-sm d-inline-flex align-items-center shadow-sm" 
+                        data-bs-toggle="tooltip" 
+                        title="Share your thoughts about this product">
+                        <i class="fas fa-star me-2"></i> Write a Review
+                     </a>
+					</div>
+                   
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+    
+
+    
+<script src="{% static 'vendor/MagnificPopup/jquery.magnific-popup.min.js' %} "></script>
+<script>
+    $('.js-addwish-b2').on('click', function(e){
+        e.preventDefault();
+    });
+
+    $('.js-addwish-b2').each(function(){
+        var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
+        $(this).on('click', function(){
+            swal(nameProduct, "is added to wishlist !", "success");
+
+            $(this).addClass('js-addedwish-b2');
+            $(this).off('click');
+        });
+    });
+
+    $('.js-addwish-detail').each(function(){
+        var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
+
+        $(this).on('click', function(){
+            swal(nameProduct, "is added to wishlist !", "success");
+
+            $(this).addClass('js-addedwish-detail');
+            $(this).off('click');
+        });
+    });
+
+    /*---------------------------------------------*/
+
+    $('.js-addcart-detail').each(function(){
+        var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+        $(this).on('click', function(){
+            swal(nameProduct, "is added to cart !", "success");
+        });
+    });
+
+    </script>
+    <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %} "></script>
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+<!--===============================================================================================-->	
+
+
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %} "></script>
+    <!--===============================================================================================-->
+        <script src="{% static 'vendor/animsition/js/animsition.min.js' %} "></script>
+    <!--===============================================================================================-->
+        <script src="{% static 'vendor/bootstrap/js/popper.js' %} "></script>
+        <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %} "></script>
+    <!--===============================================================================================-->
+        <script src="{% static 'vendor/select2/select2.min.js' %} "></script>
+        <script>
+            $(".js-select2").each(function(){
+                $(this).select2({
+                    minimumResultsForSearch: 20,
+                    dropdownParent: $(this).next('.dropDownSelect2')
+                });
+            })
+        </script>
+    <!--===============================================================================================-->
+        <script src="{% static 'vendor/daterangepicker/moment.min.js' %} "></script>
+        <script src="{% static 'vendor/daterangepicker/daterangepicker.js' %} "></script>
+    <!--===============================================================================================-->
+        <script src="{% static 'vendor/slick/slick.min.js' %} "></script>
+     
+    <!--===============================================================================================-->
+        <script src="{% static 'vendor/parallax100/parallax100.js' %} "></script>
+        <script>
+            $('.parallax100').parallax100();
+        </script>
+    <!--===============================================================================================-->
+        <script src="{% static 'vendor/MagnificPopup/jquery.magnific-popup.min.js' %} "></script>
+        <script>
+            $('.gallery-lb').each(function() { // the containers for all your galleries
+                $(this).magnificPopup({
+                    delegate: 'a', // the selector for gallery item
+                    type: 'image',
+                    gallery: {
+                        enabled:true
+                    },
+                    mainClass: 'mfp-fade'
+                });
+            });
+        </script>
+    <!--===============================================================================================-->
+        <script src="{% static 'vendor/isotope/isotope.pkgd.min.js' %} "></script>
+    <!--===============================================================================================-->
+        <script src="{% static 'vendor/sweetalert/sweetalert.min.js' %} "></script>
+        <script>
+            $('.js-addwish-b2').on('click', function(e){
+                e.preventDefault();
+            });
+    
+            $('.js-addwish-b2').each(function(){
+                var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
+                $(this).on('click', function(){
+                    swal(nameProduct, "is added to wishlist !", "success");
+    
+                    $(this).addClass('js-addedwish-b2');
+                    $(this).off('click');
+                });
+            });
+    
+            $('.js-addwish-detail').each(function(){
+                var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
+    
+                $(this).on('click', function(){
+                    swal(nameProduct, "is added to wishlist !", "success");
+    
+                    $(this).addClass('js-addedwish-detail');
+                    $(this).off('click');
+                });
+            });
+    
+            /*---------------------------------------------*/
+    
+            $('.js-addcart-detail').each(function(){
+                var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+                $(this).on('click', function(){
+                    swal(nameProduct, "is added to cart !", "success");
+                });
+            });
+        
+        </script>
+    <!--===============================================================================================-->
+        <script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.min.js' %} "></script>
+        <script>
+            $('.js-pscroll').each(function(){
+                $(this).css('position','relative');
+                $(this).css('overflow','hidden');
+                var ps = new PerfectScrollbar(this, {
+                    wheelSpeed: 1,
+                    scrollingThreshold: 1000,
+                    wheelPropagation: false,
+                });
+    
+                $(window).on('resize', function(){
+                    ps.update();
+                })
+            });
+        </script>
+    <!--===============================================================================================-->
+        <script src="{% static 'js/main.js' %} "></script>
+    
+    
+        <script>
+            $(document).ready(function () {
+              // Initialize Slick for the smaller images column
+              $('.slider-column').slick({
+                  vertical: true,
+                  slidesToShow: {{product.images.count }}-1,
+                  slidesToScroll: 1,
+                  arrows: false,
+                  dots: false,
+                  autoplay: true,
+                  autoplaySpeed: 3000,
+                  focusOnSelect: true,
+              });
+          
+              // Sync larger image with the active slide
+              $('.slider-column').on('afterChange', function (event, slick, currentSlide) {
+                  const src = $('.slider-column .slick-current img').attr('src');
+                  $('.large-slide img').attr('src', src);
+              });
+          
+              // Reinitialize Slick after dynamically loading the images
+              $('.slider-column').slick('refresh');
+          
+              // Initialize the larger image with the first slide
+              const initialSrc = $('.slider-column .slick-current img').attr('src');
+              $('.large-slide img').attr('src', initialSrc);
+          });
+            
+          </script>
+          <script src="{% static 'js/filter.js' %} "></script>
+          <script src="{% static 'js/cart.js' %} "></script>
+</div>
+    

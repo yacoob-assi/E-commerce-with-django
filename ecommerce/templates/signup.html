@@ -1,0 +1,79 @@
+{% extends 'base.html'%}
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+
+{% block content %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modernize Free</title>
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/logos/favicon.png' %}" />
+  <link rel="stylesheet" href="{% static 'css/styles.min.css' %}" />
+</head>
+
+  <!--  Body Wrapper -->
+  <div  class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+    data-sidebar-position="fixed" data-header-position="fixed">
+    <div 
+      class="position-relative overflow-hidden radial-gradient min-vh-100 d-flex align-items-center justify-content-center">
+      <div  style="margin:70px 0 70px " class="d-flex align-items-center justify-content-center w-100">
+        <div class="row justify-content-center w-100">
+          <div class="col-md-8 col-lg-6 col-xxl-3">
+            <div class="card mb-0">
+              <div class="card-body">
+                <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                  <img src="{% static 'images/icons/logo-01.png' %}" width="180" alt="">
+                </a>
+                <p class="text-center">Your Social Campaigns</p>
+
+                {% if form.errors %}
+                <div class="alert alert-danger">
+                <strong>{{form.errors}}</strong>
+                </div>
+                {% endif %}
+                <form action="" method="POST">
+                 {% csrf_token %}
+                  <div class="mb-3">
+                    <label for="exampleInputtext1" class="form-label">Name</label>
+                   {{form.username}}
+                   </div>
+                  <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email Address</label>
+                  {{form.email}} 
+                   </div>
+                  <div class="mb-4">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                {{form.password1}}       
+                    </div>
+                      <div class="mb-4">
+                    <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
+                {{form.password2}}       
+                    </div>
+
+                   <button class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" type="submit">Sign up</button>
+
+                  <div class="d-flex align-items-center justify-content-center">
+                    <p class="fs-4 mb-0 fw-bold">Already have an Account?</p>
+                    <a class="text-primary fw-bold ms-2" href="{% url 'login'%}">Sign In</a>
+                  </div>
+    </form>
+
+                  
+   
+   
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
+  <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</html>
+{% endblock content %}

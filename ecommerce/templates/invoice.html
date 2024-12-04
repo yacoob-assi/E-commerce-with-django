@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressive Invoice</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .invoice-card {
+            border-radius: 20px;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .header-text {
+            font-family: 'Arial Black', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container my-5">
+        <div class="card shadow invoice-card">
+            <!-- Header -->
+            <div class="card-header bg-gradient-primary text-white text-center py-4" style="background: linear-gradient(90deg, #007bff, #6c63ff);">
+                <h2 class="mb-0 header-text">Invoice</h2>
+                <small class="d-block">Thank you for your purchase!</small>
+            </div>
+            
+            <!-- Card Body -->
+            <div class="card-body px-5">
+                <!-- Customer Details -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h5>Customer Details</h5>
+                        <p class="mb-0"><strong>Name: </strong>{{username}}</p>
+                        <p class="mb-0"><strong>Email: </strong> {{email}}</p>
+                        <p><strong>Date:</strong>{{due_date}}</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <h5>Invoice Details</h5>
+                        <p class="mb-0"><strong>Invoice #:</strong> INV-12345</p>
+                        <p><strong>Due Date:</strong> 30 Nov 2024</p>
+                    </div>
+                </div>
+
+                <!-- Items Table -->
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-primary">
+
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th>Item Name</th>
+                                <th>Image</th>
+                                <th>quntity</th>
+
+                                <th class="text-end">Price ($)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in cartProducts %}                               <tr>
+                                <td class="text-center">{{ forloop.counter }}</td>
+                                <td> {{product.title}}</td>
+                                <td>
+                                    <img src=" {{product.image}}" alt="Premium Headphones" class="rounded shadow-sm" style="width:150px; height:150px">
+                                </td>
+                                <td> {{product.quntity}}</td>
+
+                                <td class="text-end"> {{product.totalPrice|floatformat:2}}</td>
+                            </tr>
+                           
+                            {% endfor %}
+                         
+                        </tbody>
+                        <tfoot class="table-light">
+                            <tr>
+                                <th colspan="3" class="text-end">Subtotal</th>
+                                <th class="text-end">$ {{totalPrice|floatformat:2}}</th>
+                            </tr>
+                            <tr>
+                                <th colspan="3" class="text-end">Tax (10%)</th>
+                                <th class="text-end">$ {{tax|floatformat:2}}</th>
+                            </tr>
+                            <tr class="table-primary">
+                                <th colspan="3" class="text-end">Total</th>
+                                <th class="text-end">$ {{total|floatformat:2}}</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex justify-content-end mt-4">
+                    <button class="btn btn-outline-primary me-2">Print Invoice</button>
+                    <button class="btn btn-success">Download PDF</button>
+                    <a href="{% if cartLength|stringformat:"s" == '0' %}{% url 'payment-filed' %}{% else %}{% url 'payment-completed' %}{% endif %}" style="margin-left:10px">
+                        <img alt="Payment Completed" 
+                             border="0" 
+                             src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" 
+                             width="150" 
+                             height="50">
+                    </a>
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+<script>
+    window.onpageshow = function(event) {
+        console.log("onpageshow event fired");
+        if (event.persisted) {
+            console.log("Page was loaded from cache, reloading...");
+            window.location.reload();
+        }
+    };
+    
+</script>

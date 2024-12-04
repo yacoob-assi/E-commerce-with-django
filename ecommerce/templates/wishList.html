@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wishlist</title>
+  
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Arial', sans-serif;
+    }
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #343a40;
+    }
+    .wishlist-card {
+      border: none;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .wishlist-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+    .wishlist-image {
+      height: 220px;
+      object-fit: cover;
+    }
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: #495057;
+    }
+    .card-text {
+      font-size: 1rem;
+      color: #6c757d;
+    }
+    .btn {
+      border-radius: 20px;
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+    }
+    .btn-danger {
+      background-color: #dc3545;
+      border: none;
+    }
+    .btn-danger:hover {
+      background-color: #bd2130;
+    }
+    .btn-primary {
+      background-color: #0d6efd;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #084298;
+    }
+  </style>
+</head>
+<body>  
+  {% if wishLength != 0 %}
+ <div class="container my-5" id="bodyWish">
+    <h1 class="text-center mb-4" style="margin-top:70px" id="titleWish">My Wishlist</h1>
+    <div class="row g-4">
+      
+      <!-- Products -->
+      {% for product in wishes %}
+      <div class="col-md-4" id="wish-pro{{ product.pid }}">
+        <div class="card wishlist-card">
+          <img src="{{ product.image }}" class="card-img-top wishlist-image" alt="Product Image">
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ product.title }}</h5>
+            <p class="card-text">${{ product.price }}</p>
+            <div class="d-flex justify-content-center gap-3">
+              <button class="btn btn-danger btn-sm remove-wish " data-pid="{{ product.pid }}" data-url="{% url 'remove-wish' %}" id="remove-wish-button-{{product.pid}}">
+                <i class="fa fa-trash"></i> Remove
+              </button>
+              <button class="btn btn-primary btn-sm addToWishilist" data-image="{{product.image}}" data-title="{{product.title}}" data-price="{{product.price}}"  data-pid="{{product.pid}}" data-quntity="1" data-url="{% url 'addToCart' %}"  id="addToCartButton-{{product.id}}" data-page="wish">
+                {% if product.id|stringformat:"s" in cartProductIds %}
+              Added To Cart
+          {% else %}
+              <i class="fas fa-shopping-cart me-2"></i> Move to Cart
+          {% endif %}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      
+    </div>
+  </div>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- jQuery -->
+  <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+  
+  <!-- Custom JS -->
+  <script src="{% static 'js/cart.js' %}"></script>
+{% else %}
+<div class="container text-center mt-5" >
+  <h2 style="margin:200px 0">Your Wishlist is Empty!</h2>
+  <p class="lead">Looks like your taste buds haven’t picked anything yet. Start adding your favorite dishes today!</p>
+</div>
+
+{% endif %}
+
+  {% comment %} <script>
+  document.querySelectorAll(".addToWishilist").forEach(function(button) {
+    button.addEventListener("click", function() {
+      // Get the data-pid of the clicked button
+      var pid = this.getAttribute("data-pid");
+      
+      // Trigger the click event on the corresponding remove wish button
+      var removeButton = document.getElementById(`remove-wish-button-${pid}`);
+      
+     
+      
+
+    });
+  
+    
+  });
+  
+</script> {% endcomment %}
+</body>
+</html>
+{% endblock content %}

@@ -1,0 +1,441 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+
+	<!-- Slider -->
+	<section class="section-slide">
+		<div class="wrap-slick1">
+			<div class="slick1">
+				<div class="item-slick1" style="background-image: url({% static 'images/slide-01.jpg' %});">
+					<div class="container h-full">
+						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+							<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
+								<span class="ltext-101 cl2 respon2">
+									Women Collection 2018
+								</span>
+							</div>
+								
+							<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="800">
+								<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
+									NEW SEASON
+								</h2>
+							</div>
+								
+							<div class="layer-slick1 animated visible-false" data-appear="zoomIn" data-delay="1600">
+								<a href="#" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+									Shop Now
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="item-slick1" style="background-image: url({% static 'images/slide-02.jpg' %});">
+					<div class="container h-full">
+						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+							<div class="layer-slick1 animated visible-false" data-appear="rollIn" data-delay="0">
+								<span class="ltext-101 cl2 respon2">
+									Men New-Season
+								</span>
+							</div>
+								
+							<div class="layer-slick1 animated visible-false" data-appear="lightSpeedIn" data-delay="800">
+								<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
+									Jackets & Coats
+								</h2>
+							</div>
+								
+							<div class="layer-slick1 animated visible-false" data-appear="slideInUp" data-delay="1600">
+								<a href="product.html" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+									Shop Now
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="item-slick1" style="background-image: url({% static 'images/slide-03.jpg' %});">
+					<div class="container h-full">
+						<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
+							<div class="layer-slick1 animated visible-false" data-appear="rotateInDownLeft" data-delay="0">
+								<span class="ltext-101 cl2 respon2">
+									Men Collection 2018
+								</span>
+							</div>
+								
+							<div class="layer-slick1 animated visible-false" data-appear="rotateInUpRight" data-delay="800">
+								<h2 class="ltext-201 cl2 p-t-19 p-b-43 respon1">
+									New arrivals
+								</h2>
+							</div>
+								
+							<div class="layer-slick1 animated visible-false" data-appear="rotateIn" data-delay="1600">
+								<a href="product.html" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+									Shop Now
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+
+	<!-- Banner -->
+	<div class="sec-banner bg0 p-t-80 p-b-50" id="details-section">
+		
+		<div class="container">
+			<div class="p-b-10">
+				<h3 class="ltext-103 cl5">
+					Categories
+				</h3>
+			</div>
+			<div class="row">
+			{% for category in categories %}
+				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
+					<!-- Block1 -->
+					<div class="block1 wrap-pic-w">
+						<img src="{{ category.image.url }}" style="height:300px" alt="IMG-BANNER">
+
+						<a href="{% url 'category-products' category.cid %}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
+							<div class="block1-txt-child1 flex-col-l">
+								<span class="block1-name ltext-102 trans-04 p-b-8">
+									{{category.title}}
+								</span>
+
+								<span class="block1-info stext-102 trans-04">
+									{{category.products.count}} product{{category.products.count|pluralize:"s"}}
+								</span>
+							</div>
+
+							<div class="block1-txt-child2 p-b-4 trans-05">
+								<div class="block1-link stext-101 cl0 trans-09">
+									Shop Now
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Product -->
+	<section class="bg0 p-t-23 p-b-140">
+		<div class="container">
+			<div class="p-b-10">
+				<h3 class="ltext-103 cl5">
+					Product Overview
+				</h3>
+			</div>
+
+			<div class="flex-w flex-sb-m p-b-52">
+				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
+						All Products
+					</button>
+
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".women">
+						Women
+					</button>
+
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".men">
+						Men
+					</button>
+
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".bag">
+						Bag
+					</button>
+
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".shoes">
+						Shoes
+					</button>
+
+					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".watches">
+						Watches
+					</button>
+				</div>
+
+				<div class="flex-w flex-c-m m-tb-10">
+					<div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+						<i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+						<i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+						 Filter
+					</div>
+
+					<div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+						<i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+						<i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+						Search
+					</div>
+				</div>
+				
+				<!-- Search product -->
+				<form action="{% url 'search-product' %}" method="GET">
+				<div class="dis-none panel-search w-full p-t-10 p-b-15">
+					<div class="bor8 dis-flex p-l-15">
+						<button type="submit" class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+							<i class="zmdi zmdi-search"></i>
+						</button>
+
+						<input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search" placeholder="Search">
+					</div>	
+				</div>
+			</div>
+				
+
+				<!-- Filter -->
+				<div class="dis-none panel-filter w-full p-t-10">
+					<div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
+						<div class="filter-col1 p-r-15 p-b-27">
+							<div class="mtext-102 cl2 p-b-15">
+								Categories
+							</div>
+							
+							<ul>
+							 
+                            {% for category in categories %}
+							<li class="list-group-item d-flex align-items-center">
+								<input type="checkbox" class="form-check-input me-3 filterProducts" id="category-{{ category.cid }}" data-filter="category" value="{{category.cid}}">
+								<label for="category-{{ category.cid }}" class="form-check-label mb-0">
+									{{ category.title }}
+								</label>
+							</li>
+							
+							{% endfor %}
+								
+							</ul>
+						</div>
+
+						<div class="filter-col2 p-r-15 p-b-27">
+							<div class="mtext-102 cl2 p-b-15">
+								Vendors
+							</div>
+
+							<ul>
+								{% for vendor in vendors %}
+								<li class="list-group-item d-flex align-items-center" >
+									<input type="checkbox" class="form-check-input me-3 filterProducts" id="vendor-{{ vendor.vid }}"  data-filter="vendor" value="{{vendor.vid}}">
+									<label for="vendor-{{ vendor.vid }}" class="form-check-label mb-0">
+										{{ vendor.title }}
+									</label>
+								</li>
+								
+								{% endfor %}
+								
+
+								
+							</ul>
+						</div>
+
+						
+
+						<div class="filter-col4 p-b-27">
+							<div class="mtext-102 cl2 p-b-15">
+								Tags
+							</div>
+
+							<div class="flex-w p-t-4 m-r--5">
+								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+									Fashion
+								</a>
+
+								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+									Lifestyle
+								</a>
+
+								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+									Denim
+								</a>
+
+								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+									Streetstyle
+								</a>
+
+								<a href="#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+									Crafts
+								</a>
+							</div>
+						</div>
+						
+						<div class="mb-5">
+							<!-- Range Slider and Input -->
+							<div class="d-flex align-items-center mb-3">
+								<span class="me-3 fw-bold text-muted">{{prices.min_price|floatformat:2 }}</span>
+								<input 
+									type="range" 
+									class="form-range flex-grow-1" 
+									id="customRange" 
+									min="{{prices.min_price|floatformat:2}}" 
+									max="{{prices.max_price|floatformat:2 }}" 
+									step="1" 
+									value="{{prices.min_price}}" 
+									style="height: 0.75rem; background: linear-gradient(to right, #0d6efd 0%, #0d6efd 5%, #ddd 5%);" 
+									oninput="updateRangeValue(this)">
+								<span class="ms-3 fw-bold text-muted">{{prices.max_price|floatformat:2 }}</span>
+							</div>
+							
+							<!-- Input Box to Display and Change Range Value -->
+							<div class="text-center mb-4">
+								<input 
+									type="number" 
+									id="rangeDisplay" 
+									class="form-control text-center fw-bold" 
+									style="font-size: 1.2rem; width: 8rem; margin: 0 auto;" 
+									value="{{prices.min_price|floatformat:2 }}" 
+									min="{{prices.min_price|floatformat:2 }}" 
+									max="{{prices.max_price|floatformat:2 }}" 
+									oninput="updateSliderValue(this)">
+							</div>
+						
+							<!-- Submit Button -->
+							<div class="text-center">
+								<button 
+									type="button" 
+									class="btn btn-primary px-5 py-2 fw-semibold" 
+									style="border-radius: 50px; font-size: 1rem;" 
+									onclick="submitRangeValue()"
+									id="rangeButton">
+									Submit
+								</button>
+							</div>
+						</div>
+						
+						
+					</div>
+				</div>
+			</div>
+
+			<div class="row isotope-grid g-4" id="filterBox">
+				{% for product in products %}
+				<div class="col-sm-6 col-md-4 col-lg-3 isotope-item">
+					<!-- Product Card -->
+					<div class="card h-100 shadow-sm border-0">
+						<!-- Product Image -->
+						<div class="block2-pic hov-img0">
+   						 <img src="{{ product.image.url }}" alt="IMG-PRODUCT" style="width: 80%; height: 200px;margin-left:10%">
+
+							<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1" 
+							hx-get="{% url 'product-detail' product.pk %}"
+							hx-target="#product-detail"
+							hx-swap="innerHTML">
+							Quick View
+							</a>
+
+						</div>
+						<!-- Product Details -->
+						<div class="card-body d-flex flex-column">
+							<!-- Category -->
+							<p class="text-uppercase text-muted small mb-2">{{ product.category.title }}</p>
+							<!-- Product Title -->
+							<h5 class="card-title text-truncate">
+								<a href="product-detail.html" class="text-decoration-none text-dark">
+									{{ product.title }}
+								</a>
+							</h5>
+							<!-- Product Rating -->
+							<div class="mb-2" style="display:flex;justify-content:space-between;cursor:pointer">
+								<span class="text-warning fs-3">									
+									{% if product.rating == 1 %}
+											★☆☆☆☆
+										{% elif product.rating == 2 %}
+											★★☆☆☆
+										{% elif product.rating == 3 %}
+											★★★☆☆
+										{% elif product.rating == 4 %}
+											★★★★☆
+										{% else %}
+											★★★★★
+										{% endif %}
+
+								
+
+								</span>
+								{% if product.id|stringformat:"s" in wishes %}
+
+								<i class="fa-solid fa-check"></i>
+								{% else %}
+								<i class="fa-regular fa-heart addToWishButton" data-image="{{product.image.url}}" data-title="{{product.title}}" data-price="{{product.price}}"  data-pid="{{product.id}}" data-quntity="1"  data-url="{% url 'addToWish' %}" id="addToWishlist-{{product.id}}"></i>
+								{% endif %}
+							</div>
+							<!-- Vendor -->
+							<p class="text-success small mb-2">by <strong>{{ product.vendor.title }}</strong></p>
+							<!-- Price -->
+							<div class="mb-3">
+								<span class="text-primary fw-bold" style="font-size: 1.2rem;">${{ product.price }}</span>
+								{% if product.old_price %}
+								<span class="text-muted ms-2 text-decoration-line-through small">${{ product.old_price }}</span>
+								{% endif %}
+							</div>
+							<!-- Wishlist Button --> 
+							<div class="mt-auto">
+								<a class="btn btn-outline-secondary btn-sm w-100 addToWishilist" data-image="{{product.image.url}}" data-title="{{product.title}}" data-price="{{product.price}}"  data-pid="{{product.id}}" data-quntity="1" data-url="{% url 'addToCart' %}"  id="addToCartButton-{{product.id}}">
+									{% if product.id|stringformat:"s" in cartProductIds %}
+									Added To Cart
+								{% else %}
+									<i class="fas fa-shopping-cart me-2"></i> Add to Cart
+								{% endif %}
+																</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+			
+
+
+			<!-- Load more -->
+			<div class="flex-c-m flex-w w-full p-t-45">
+				<a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+					Load More
+				</a>
+			</div>
+		</div>
+	</section>
+
+
+	
+	<!-- Modal1 -->
+
+	<div id="product-detail"  class="wrap-modal1 js-modal1 p-t-60 p-b-20">
+		
+	</div>
+	
+
+	<script>
+		// Update text input when slider changes
+		function updateRangeValue(slider) {
+			const value = slider.value;
+			const percentage = (value / slider.max) * 100;
+			slider.style.background = `linear-gradient(to right, #0d6efd 0%, #0d6efd ${percentage}%, #ddd ${percentage}%)`;
+			document.getElementById('rangeDisplay').value = value;
+		}
+	
+		// Update slider when text input changes
+		function updateSliderValue(input) {
+			const value = parseInt(input.value);
+			const slider = document.getElementById('customRange');
+			if (value >= slider.min && value <= slider.max) {
+				slider.value = value;
+				const percentage = (value / slider.max) * 100;
+				slider.style.background = `linear-gradient(to right, #0d6efd 0%, #0d6efd ${percentage}%, #ddd ${percentage}%)`;
+			}
+		}
+	
+		// Handle submit button click
+		function submitRangeValue() {
+			const value = document.getElementById('customRange').value;
+			{% comment %} alert(`Range value submitted: ${value}`); {% endcomment %}
+			// Additional submit logic here
+		}
+	</script>
+	
+
+
+{% endblock content %}

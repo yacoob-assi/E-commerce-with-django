@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Reviews</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        .review-card {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .review-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        .stars {
+            color: #FFD700;
+            cursor: pointer;
+        }
+        .star-selected {
+            color: #FFD700;
+        }
+        .statistics {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px;
+        }
+        .stat-item {
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .stat-bar {
+            height: 8px;
+            background-color: #FFD700;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+        .stat-container {
+            width: 100%;
+        }
+        .product-info {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .product-info img {
+            max-width: 200px;
+            max-height: 200px;
+        }
+    </style>
+</head>
+<body style="padding-top:100px">
+    <div class="container mt-5">
+        <h2 class="text-center">Product Reviews</h2>
+
+        <!-- Product Information Section -->
+        <div class="product-info">
+            <img src="{{ product.image.url }}" alt="Product Image" class="img-fluid">
+            <h3>{{ product.title }}</h3>
+        </div>
+
+        <!-- Review and Statistics Row -->
+        <div class="row">
+            <!-- Review Form Column -->
+            <div style="display:flex">
+                <form id="reviewForm" method="POST" action="{% url 'new-review' product.pk %}" style="width:100%">
+                    {% csrf_token %}
+                    
+                    <div class="mb-4">
+                        <label for="review" class="form-label">Your Review</label>
+                        {{ form.review }}
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label for="rating" class="form-label">Rating</label>
+                        <select name="rating" class="form-control">
+                            {% for choice in form.rating.field.choices %}
+                                <option value="{{ choice.0 }}" {% if choice.0 == form.rating.value %} selected {% endif %}>{{ choice.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100">Submit Review</button>
+                </form>
+    
+                <!-- Statistics Card Column -->
+                <div class="col-md-6">
+                    <div class="card shadow-lg border-0 rounded-3">
+                        <div class="card-body">
+                            <h5 class="card-title text-center mb-4">Ratings Statistics</h5>
+                            <div class="statistics">
+                                <!-- 1 Star -->
+                                <div class="stat-item mb-3 d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">1 Star</span>
+                                    <div class="d-flex align-items-center">
+                                        <span id="stat-1" class="stars">★☆☆☆☆</span>
+                                        <div class="stat-bar-wrapper ms-3">
+                                            <div class="stat-bar" id="bar-1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 2 Stars -->
+                                <div class="stat-item mb-3 d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">2 Stars</span>
+                                    <div class="d-flex align-items-center">
+                                        <span id="stat-2" class="stars">★★☆☆☆</span>
+                                        <div class="stat-bar-wrapper ms-3">
+                                            <div class="stat-bar" id="bar-2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 3 Stars -->
+                                <div class="stat-item mb-3 d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">3 Stars</span>
+                                    <div class="d-flex align-items-center">
+                                        <span id="stat-3" class="stars">★★★☆☆</span>
+                                        <div class="stat-bar-wrapper ms-3">
+                                            <div class="stat-bar" id="bar-3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 4 Stars -->
+                                <div class="stat-item mb-3 d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">4 Stars</span>
+                                    <div class="d-flex align-items-center">
+                                        <span id="stat-4" class="stars">★★★★☆</span>
+                                        <div class="stat-bar-wrapper ms-3">
+                                            <div class="stat-bar" id="bar-4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 5 Stars -->
+                                <div class="stat-item mb-3 d-flex justify-content-between align-items-center">
+                                    <span class="text-muted">5 Stars</span>
+                                    <div class="d-flex align-items-center">
+                                        <span id="stat-5" class="stars">★★★★★</span>
+                                        <div class="stat-bar-wrapper ms-3">
+                                            <div class="stat-bar" id="bar-5"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reviews Display -->
+            <div class="mt-5">
+                <h3 id="showw" class="text-center mb-4">Customer Reviews</h3>
+                <div id="reviews-container" class="row">
+                    {% for review in reviews %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-lg border-0 rounded-3">
+                            <div class="card-body d-flex flex-column">
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="https://www.w3schools.com/w3images/avatar2.png" alt="User Image" class="review-img rounded-circle border" style="width: 50px; height: 50px;">
+                                    <div class="ms-3">
+                                        <h5 class="card-title text-primary">{{ review.user.username }}</h5>
+                                        <p class="stars text-warning">{{ review.get_rating_display }}</p>
+                                    </div>
+                                </div>
+                                <p class="card-text text-muted mb-4">{{ review.review }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">Posted on: {{ review.date_posted|date:"M d, Y" }}</small>
+                                    <button class="btn btn-outline-primary btn-sm">Helpful</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script>
+        let reviewsData = {
+            1: {{star1}},
+            2: {{star2}},
+            3: {{star3}},
+            4: {{star4}},
+            5: {{star5}}
+        };
+
+        updateStatistics();
+
+        function updateStatistics() {
+            const totalReviews = Object.values(reviewsData).reduce((sum, count) => sum + count, 0);
+            
+            for (let i = 1; i <= 5; i++) {
+                const percentage = totalReviews > 0 ? (reviewsData[i] / totalReviews) * 100 : 0;
+                const statBar = document.getElementById('bar-' + i);
+                statBar.style.width = percentage + '%';
+                document.getElementById('stat-' + i).textContent = '★'.repeat(i) + '☆'.repeat(5 - i) + ' ' + Math.round(percentage) + '%';
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+            updateStatistics();
+        }); 
+    </script>
+{% endblock content %}
